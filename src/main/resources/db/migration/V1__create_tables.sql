@@ -33,6 +33,8 @@ CREATE TABLE responseToAd
 (
     id          BIGSERIAL PRIMARY KEY,
     message     TEXT      NOT NULL,
+    date_from   DATE      NOT NULL,
+    date_to     DATE      NOT NULL,
     created_at  TIMESTAMP NOT NULL,
     tenant_id   BIGINT    NOT NULL REFERENCES tenant (id),
     rentalAd_id BIGINT    NOT NULL REFERENCES rentalAd (id),

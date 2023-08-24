@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "responsetoad")
@@ -25,8 +26,15 @@ public class ResponseToAd extends BaseEntity {
     @JoinColumn(name = "rentalad_id", nullable = false)
     private RentalAd rentalAd;
 
-    @Column(name = "message", nullable = false)
+    @Column(name = "message", columnDefinition = "DATE", nullable = false)
     private String message;
+
+    @Column(name = "date_from", columnDefinition = "DATE", nullable = false)
+    private LocalDate dateFrom;
+
+
+    @Column(name = "date_to", nullable = false)
+    private LocalDate dateTo;
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
