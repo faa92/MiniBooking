@@ -6,6 +6,8 @@ CREATE TABLE landlord
     password_hash TEXT NOT NULL
 );
 
+CREATE UNIQUE INDEX ON landlord (lower(email));
+
 CREATE TABLE tenant
 (
     id            BIGSERIAL PRIMARY KEY,
@@ -13,6 +15,8 @@ CREATE TABLE tenant
     email         TEXT NOT NULL,
     password_hash TEXT NOT NULL
 );
+
+CREATE UNIQUE INDEX ON tenant (lower(email));
 
 CREATE TABLE rentalAd
 (
@@ -22,7 +26,7 @@ CREATE TABLE rentalAd
     price       DECIMAL   NOT NULL,
     created_at  TIMESTAMP NOT NULL,
     active      BOOLEAN   NOT NULL,
-    landlord_id BIGINT REFERENCES landlord (id)
+    landlord_id BIGINT    NOT NULL REFERENCES landlord (id)
 );
 
 CREATE TABLE responseToAd
@@ -30,6 +34,7 @@ CREATE TABLE responseToAd
     id          BIGSERIAL PRIMARY KEY,
     message     TEXT      NOT NULL,
     created_at  TIMESTAMP NOT NULL,
-    tenant_id   BIGINT REFERENCES tenant (id),
-    rentalAd_id BIGINT REFERENCES rentalAd (id)
+    tenant_id   BIGINT    NOT NULL REFERENCES tenant (id),
+    rentalAd_id BIGINT    NOT NULL REFERENCES rentalAd (id),
+    UNIQUE (tenant_id, rentalAd_id)
 );

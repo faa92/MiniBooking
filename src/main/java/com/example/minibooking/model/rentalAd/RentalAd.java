@@ -11,15 +11,11 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
-@Table(name = "rentalAd")
+@Table(name = "rentalad")
 @Getter
 @Setter
 @Accessors(chain = true)
 public class RentalAd extends BaseEntity {
-
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "landlord_id", nullable = false)
-    private Landlord landlord;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -35,4 +31,8 @@ public class RentalAd extends BaseEntity {
 
     @Column(name = "active", nullable = false)
     private boolean active;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "landlord_id", nullable = false)
+    private Landlord landlord;
 }

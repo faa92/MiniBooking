@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 import java.time.Instant;
 
 @Entity
-@Table(name = "responseToAd")
+@Table(name = "responsetoad")
 @Getter
 @Setter
 @Accessors(chain = true)
@@ -22,7 +22,7 @@ public class ResponseToAd extends BaseEntity {
     private Tenant tenant;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "rentalAd_id", nullable = false)
+    @JoinColumn(name = "rentalad_id", nullable = false)
     private RentalAd rentalAd;
 
     @Column(name = "message", nullable = false)
