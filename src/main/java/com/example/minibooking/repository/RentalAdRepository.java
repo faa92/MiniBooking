@@ -12,7 +12,7 @@ public interface RentalAdRepository extends BaseRepository<RentalAd, Long> {
 
     List<Optional<RentalAd>> findPageByActiveListingOfLandlord(long landlordId, int pageSize, int pageNumber);
 
-    List<RentalAd> findAllActiveRentalAdByLowPrice(int pageSize, int pageNumber);
+    List<RentalAd> findPageActiveRentalAdByLowPrice(int pageSize, int pageNumber);
 
-    List<RentalAd> getAllActiveListingsOnThoseDates(LocalDate start, LocalDate end);//todo
+    List<RentalAd> getAvailableRentalAdsInDateRange(LocalDate start, LocalDate end);//todo
 }

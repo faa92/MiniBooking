@@ -16,9 +16,9 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
     public List<RentalAd> findPageByLandlord(long landlordId, int pageSize, int pageNumber) {
         return entityManager.createQuery("""
                         SELECT rentalad
-                        FROM RentalAd rentalad
-                        WHERE rentalad.landlord.id = :landlordId
-                        ORDER BY rentalad.createdAt DESC 
+                        FROM RentalAd rentalAd
+                        WHERE rentalAd.landlord.id = :landlordId
+                        ORDER BY rentalAd.createdAt DESC 
                         """, RentalAd.class)
                 .setParameter("landlordId", landlordId)
                 .setMaxResults(pageSize)
@@ -45,16 +45,37 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
         for (RentalAd rentalAd : rentalAds) {
             result.add(Optional.of(rentalAd));
         }
-        return result;
+        return result; //todo
     }
 
     @Override
-    public List<RentalAd> findAllActiveRentalAdByLowPrice(int pageSize, int pageNumber) {
-        return null;
+    public List<RentalAd> findPageActiveRentalAdByLowPrice(int pageSize, int pageNumber) {
+        return entityManager.createQuery("""
+                        SELECT rentalad
+                        FROM RentalAd rentalAd
+                        WHERE rentalAd.active = true
+                        ORDER BY rentalAd.price ASC
+                        """, RentalAd.class)
+                .setMaxResults(pageSize)
+                .setFirstResult(pageSize * pageNumber)
+                .getResultList();
     }
 
     @Override
-    public List<RentalAd> getAllActiveListingsOnThoseDates(LocalDate start, LocalDate end) {
-        return null;
+    public List<RentalAd> getAvailableRentalAdsInDateRange(LocalDate start, LocalDate end) {
+        return entityManager.createQuery("""
+                        SELECT rentalad
+                        FROM RentalAd rentalAd
+                        WHERE rentalAd.active = true
+                        AND rentalAd NOT IN (
+                            SELECT ResponseToAd.rentalAd
+                            FROM ResponseToAd responseToAd
+                            WHERE responseToAd.dateTo >= :start
+                            AND responseToAd.dateFrom <= :end)
+                        """, RentalAd.class)
+                .setParameter("start", start)
+                .setParameter("end", end)
+                .getResultList();
     }
+
 }
