@@ -15,7 +15,7 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
                         SELECT responsetoad
                         FROM ResponseToAd responseToAd
                         WHERE responseToAd.tenant.id = :tenantId
-                        ORDER BY responseToAd.createdAt DESC 
+                        ORDER BY responseToAd.createdAt DESC
                         """, ResponseToAd.class)
                 .setParameter("tenantId", tenantId)
                 .setMaxResults(pageSize)
@@ -30,7 +30,7 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
                         FROM ResponseToAd responseToAd
                         WHERE responseToAd.rentalAd.landlord.id = :landlordId
                         AND responseToAd.tenant.id = :tenantId
-                        ORDER BY responseToAd.createdAt DESC 
+                        ORDER BY responseToAd.createdAt DESC
                         """, ResponseToAd.class)
                 .setParameter("landlordId", landlordId)
                 .setParameter("tenantId", tenantId)
