@@ -25,9 +25,9 @@ public class LandlordServiceImpl implements LandlordService {
     @Override
     public AccessToken signIn(LandlordSignInDto dto) {
         Landlord landlord = landlordRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new BadCredentialsException("")); //todo
+                .orElseThrow(() -> new BadCredentialsException("Такой email не найден"));
         if (!passwordEncoder.matches(dto.getPassword(), landlord.getPasswordHash())) {
-            throw new BadCredentialsException("");
+            throw new BadCredentialsException("Неверный пароль");
         }
         LandlordPrincipal landlordPrincipal = LandlordPrincipal.from(landlord);
         return accessTokenService.generate(landlordPrincipal);
@@ -35,17 +35,21 @@ public class LandlordServiceImpl implements LandlordService {
 
     @Override
     public AccessToken signUp(LandlordSignUpDto dto) {
-        return null;
+        String passwordHush = passwordEncoder.encode(dto.getPassword());
+        Landlord landlord = this.create(dto, passwordHush);
+        LandlordPrincipal landlordPrincipal = LandlordPrincipal.from(landlord);
+        return accessTokenService.generate(landlordPrincipal);
     }
 
     private Landlord create(LandlordSignUpDto dto, String passwordHash) {
         return transactionOperations.execute(tx -> {
             boolean existsByEmail = landlordRepository.findByEmail(dto.getEmail()).isPresent();
             if (existsByEmail) {
-                throw new BusinessException("Такой email уже существует"); //todo
+                throw new BusinessException("Такой email уже существует");
             }
             Landlord landlord = new Landlord()
-                    .setName(dto.getEmail())
+                    .setName(dto.getName())
+                    .setEmail(dto.getEmail())
                     .setPasswordHash(passwordHash);
             landlordRepository.create(landlord);
             return landlord;
