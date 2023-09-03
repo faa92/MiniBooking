@@ -62,7 +62,7 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
     }
 
     @Override
-    public List<RentalAd> getAvailableRentalAdsInDateRange(LocalDate start, LocalDate end) {
+    public List<RentalAd> getAvailableRentalAdsInDateRange(LocalDate start, LocalDate end, int pageSize, int pageNumber) {
         return entityManager.createQuery("""
                         SELECT rentalad
                         FROM RentalAd rentalAd
@@ -75,6 +75,8 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
                         """, RentalAd.class)
                 .setParameter("start", start)
                 .setParameter("end", end)
+                .setMaxResults(pageSize)
+                .setFirstResult(pageSize * pageNumber)
                 .getResultList();
     }
 
