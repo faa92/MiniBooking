@@ -1,12 +1,14 @@
 package com.example.minibooking.repository;
 
 import com.example.minibooking.model.rentalAd.RentalAd;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> implements RentalAdRepository {
     public RentalAdJpaRepository() {
         super(RentalAd.class);
@@ -45,7 +47,7 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
         for (RentalAd rentalAd : rentalAds) {
             result.add(Optional.of(rentalAd));
         }
-        return result; //todo
+        return result;
     }
 
     @Override
@@ -75,6 +77,22 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
                         """, RentalAd.class)
                 .setParameter("start", start)
                 .setParameter("end", end)
+                .setMaxResults(pageSize)
+                .setFirstResult(pageSize * pageNumber)
+                .getResultList();
+    }
+
+    @Override
+    public List<RentalAd> findPageOfActiveListingsLandlordByTitle(String title, int pageSize, int pageNumber) {
+        return entityManager.createQuery("""
+                        SELECT rentalad
+                        FROM RentalAd rentalAd
+                        JOIN FETCH rentalAd.landlord
+                        WHERE rentalAd.active
+                        AND rentalAd.title ILIKE :title
+                        ORDER BY rentalAd.createdAt DESC 
+                        """, RentalAd.class)
+                .setParameter("title", title)
                 .setMaxResults(pageSize)
                 .setFirstResult(pageSize * pageNumber)
                 .getResultList();

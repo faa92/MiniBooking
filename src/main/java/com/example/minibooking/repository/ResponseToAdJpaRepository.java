@@ -1,9 +1,11 @@
 package com.example.minibooking.repository;
 
 import com.example.minibooking.model.responseToAd.ResponseToAd;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, Long> implements ResponseToAdRepository {
     public ResponseToAdJpaRepository() {
         super(ResponseToAd.class);
