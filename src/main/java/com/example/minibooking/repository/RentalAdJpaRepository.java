@@ -14,19 +14,19 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
         super(RentalAd.class);
     }
 
-    @Override
-    public List<RentalAd> findPageByLandlord(long landlordId, int pageSize, int pageNumber) {
-        return entityManager.createQuery("""
-                        SELECT rentalad
-                        FROM RentalAd rentalAd
-                        WHERE rentalAd.landlord.id = :landlordId
-                        ORDER BY rentalAd.createdAt DESC 
-                        """, RentalAd.class)
-                .setParameter("landlordId", landlordId)
-                .setMaxResults(pageSize)
-                .setFirstResult(pageSize * pageNumber)
-                .getResultList();
-    }
+//    @Override
+//    public List<RentalAd> findPageByLandlord(long landlordId, int pageSize, int pageNumber) {
+//        return entityManager.createQuery("""
+//                        SELECT rentalad
+//                        FROM RentalAd rentalAd
+//                        WHERE rentalAd.landlord.id = :landlordId
+//                        ORDER BY rentalAd.createdAt DESC
+//                        """, RentalAd.class)
+//                .setParameter("landlordId", landlordId)
+//                .setMaxResults(pageSize)
+//                .setFirstResult(pageSize * pageNumber)
+//                .getResultList();
+//    }
 
     @Override
     public List<Optional<RentalAd>> findPageByActiveListingOfLandlord(long landlordId, int pageSize, int pageNumber) {

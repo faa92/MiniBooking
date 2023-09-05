@@ -4,13 +4,36 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.example.minibooking.security.AccessTokenProperties;
+import com.example.minibooking.security.AccountRole;
+import com.example.minibooking.service.AccessTokenService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AccessTokenService accessTokenService) throws Exception {
+        return httpSecurity.sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(config -> config
+                        .requestMatchers("/api-docs/**").permitAll()
+                        .requestMatchers("/public-api/**").permitAll()
+                        .requestMatchers("/tenant-api/**").hasRole(AccountRole.TENANT.name())
+                        .requestMatchers("/landlord-api/**").hasRole(AccountRole.LANDLORD.name())
+                        .anyRequest().denyAll()
+                )
+                .addFilterAfter(new AccessTokenAuthenticationFilter(accessTokenService), BasicAuthenticationFilter.class)
+                .build();
+    }
+
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -26,5 +49,4 @@ public class SecurityConfig {
         return JWT.require(algorithm).build();
     }
 
-    ;
 }

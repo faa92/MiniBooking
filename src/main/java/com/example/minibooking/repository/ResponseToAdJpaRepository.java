@@ -4,6 +4,7 @@ import com.example.minibooking.model.responseToAd.ResponseToAd;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, Long> implements ResponseToAdRepository {
@@ -52,5 +53,19 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
                 .getSingleResult();
 
         return count.intValue();
+    }
+
+    @Override
+    public Optional<ResponseToAd> findByRentalAdAndTenant(long rentalAdId, long tenantId) {
+        return entityManager.createQuery("""
+                        SELECT responsetoad
+                        FROM ResponseToAd responseToAd
+                        WHERE responseToAd.rentalAd.id = :rentalAdId
+                        AND responseToAd.tenant.id = :tenantId
+                        """, ResponseToAd.class)
+                .setParameter("rentalAdId", rentalAdId)
+                .setParameter("tenantId", tenantId)
+                .getResultStream()
+                .findFirst();
     }
 }

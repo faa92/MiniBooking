@@ -3,6 +3,7 @@ package com.example.minibooking.repository;
 import com.example.minibooking.model.responseToAd.ResponseToAd;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ResponseToAdRepository extends BaseRepository<ResponseToAd, Long> {
 
@@ -12,4 +13,5 @@ public interface ResponseToAdRepository extends BaseRepository<ResponseToAd, Lon
 
     int countResponseToAdByLandlord(long rentalAdId);
 
+    Optional<ResponseToAd> findByRentalAdAndTenant(long rentalAdId, long tenantId);
 }
