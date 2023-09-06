@@ -28,8 +28,10 @@ public class AccessTokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith(TOKEN_PREFIX)) {
+
             String accessTokenValue = authorizationHeader.substring(TOKEN_PREFIX.length());
             AccountPrincipal accountPrincipal = accessTokenService.authenticate(accessTokenValue);
+
             List<GrantedAuthority> authorityList = List.of(accountPrincipal.getRole());
             authenticate(accountPrincipal, authorityList);
         }

@@ -8,8 +8,8 @@ import com.example.minibooking.security.AccountRole;
 import com.example.minibooking.service.AccessTokenService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,13 +20,16 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AccessTokenService accessTokenService) throws Exception {
-        return httpSecurity.sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(AbstractHttpConfigurer::disable)
+        return httpSecurity
+                .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(config -> config.disable())
                 .authorizeHttpRequests(config -> config
-                        .requestMatchers("/api-docs/**").permitAll()
-                        .requestMatchers("/public-api/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api-docs/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/public-api/**").permitAll()
                         .requestMatchers("/tenant-api/**").hasRole(AccountRole.TENANT.name())
                         .requestMatchers("/landlord-api/**").hasRole(AccountRole.LANDLORD.name())
+                        .requestMatchers(HttpMethod.POST, "/accounts").permitAll()
+                        .requestMatchers("/**").authenticated()
                         .anyRequest().denyAll()
                 )
                 .addFilterAfter(new AccessTokenAuthenticationFilter(accessTokenService), BasicAuthenticationFilter.class)
