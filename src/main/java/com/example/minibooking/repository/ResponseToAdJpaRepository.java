@@ -15,7 +15,7 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
     @Override
     public List<ResponseToAd> findPageByTenant(long tenantId, int pageSize, int pageNumber) {
         return entityManager.createQuery("""
-                        SELECT responsetoad
+                        SELECT responseToAd
                         FROM ResponseToAd responseToAd
                         WHERE responseToAd.tenant.id = :tenantId
                         ORDER BY responseToAd.createdAt DESC
@@ -29,7 +29,7 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
     @Override
     public List<ResponseToAd> findByRentalAdLandlordAndTenant(long landlordId, long tenantId, int pageSize, int pageNumber) {
         return entityManager.createQuery("""
-                        SELECT responsetoad
+                        SELECT responseToAd
                         FROM ResponseToAd responseToAd
                         WHERE responseToAd.rentalAd.landlord.id = :landlordId
                         AND responseToAd.tenant.id = :tenantId
@@ -45,7 +45,7 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
     @Override
     public int countResponseToAdByLandlord(long landlordId) {
         Integer count = entityManager.createQuery("""
-                        SELECT COUNT (responsetoad)
+                        SELECT COUNT (responseToAd)
                         FROM ResponseToAd responseToAd
                         WHERE responseToAd.rentalAd.landlord.id = :landlordId
                         """, Integer.class)
@@ -58,7 +58,7 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
     @Override
     public Optional<ResponseToAd> findByRentalAdAndTenant(long rentalAdId, long tenantId) {
         return entityManager.createQuery("""
-                        SELECT responsetoad
+                        SELECT responseToAd
                         FROM ResponseToAd responseToAd
                         WHERE responseToAd.rentalAd.id = :rentalAdId
                         AND responseToAd.tenant.id = :tenantId

@@ -14,9 +14,10 @@ public interface RentalAdTenantService {
 
     List<RentalAdShortDto> getPageByTitleQuery(String titleQuery, int pageNumber);
 
+
     List<RentalAdPriceDto> findPageActiveAndLowPriceAd(TenantPrincipal principal, int pageNumber);
 
     List<RentalAdDataDto> getAvailableAdsInDataRange(LocalDate start, LocalDate end, TenantPrincipal principal, int pageNumber);
 
-    ResponseToAdShortBookDto sendBook(ResponseToAdCreateBookDto dto, TenantPrincipal principal);
+    ResponseToAdShortBookDto sendBooking(ResponseToAdCreateBookDto dto, TenantPrincipal principal);
 }

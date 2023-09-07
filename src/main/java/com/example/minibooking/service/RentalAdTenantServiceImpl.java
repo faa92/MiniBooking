@@ -66,14 +66,14 @@ public class RentalAdTenantServiceImpl implements RentalAdTenantService {
     }
 
     @Override
-    public ResponseToAdShortBookDto sendBook(ResponseToAdCreateBookDto dto, TenantPrincipal principal) {
+    public ResponseToAdShortBookDto sendBooking(ResponseToAdCreateBookDto dto, TenantPrincipal principal) {
         RentalAd rentalAd = rentalAdRepository.findById(dto.getRentalAdId())
                 .orElseThrow(() -> new BusinessException("Объявление не не найдено"));
-        boolean alreadyBooked = responseToAdRepository.findByRentalAdAndTenant(dto.getRentalAdId(), principal.getId())
-                .isPresent();
-        if (alreadyBooked) {
-            throw new BusinessException("Для данного аредатора бранирование уже было выполнено");
-        }
+//        boolean alreadyBooked = responseToAdRepository.findByRentalAdAndTenant(dto.getRentalAdId(), principal.getId())
+//                .isPresent();
+//        if (alreadyBooked) {  //todo
+//            throw new BusinessException("Для данного арендатора бранирование уже было выполнено");
+//        }
         Tenant tenant = tenantRepository.getReferenceById(principal.getId());
         Instant createAt = Instant.now();
         LocalDate from = dto.getDateFrom();

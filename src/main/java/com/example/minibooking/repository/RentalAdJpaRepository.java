@@ -31,7 +31,7 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
     @Override
     public List<Optional<RentalAd>> findPageByActiveListingOfLandlord(long landlordId, int pageSize, int pageNumber) {
         List<RentalAd> rentalAds = entityManager.createQuery("""
-                        SELECT rentalad
+                        SELECT rentalAd
                         FROM RentalAd rentalAd
                         WHERE rentalAd.landlord.id = : landlordId
                         AND rentalAd.active = true
@@ -53,7 +53,7 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
     @Override
     public List<RentalAd> findPageActiveRentalAdByLowPrice(int pageSize, int pageNumber) {
         return entityManager.createQuery("""
-                        SELECT rentalad
+                        SELECT rentalAd
                         FROM RentalAd rentalAd
                         WHERE rentalAd.active = true
                         ORDER BY rentalAd.price ASC
@@ -66,7 +66,7 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
     @Override
     public List<RentalAd> getAvailableRentalAdsInDateRange(LocalDate start, LocalDate end, int pageSize, int pageNumber) {
         return entityManager.createQuery("""
-                        SELECT rentalad
+                        SELECT rentalAd
                         FROM RentalAd rentalAd
                         WHERE rentalAd.active = true
                         AND rentalAd NOT IN (
@@ -85,7 +85,7 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
     @Override
     public List<RentalAd> findPageOfActiveListingsLandlordByTitle(String title, int pageSize, int pageNumber) {
         return entityManager.createQuery("""
-                        SELECT rentalad
+                        SELECT rentalAd
                         FROM RentalAd rentalAd
                         JOIN FETCH rentalAd.landlord
                         WHERE rentalAd.active

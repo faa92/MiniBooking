@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,20 +23,20 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AccessTokenService accessTokenService) throws Exception {
         return httpSecurity
                 .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(config -> config.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(config -> config
-                        .requestMatchers(HttpMethod.GET, "/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/public-api/**").permitAll()
-                        .requestMatchers("/tenant-api/**").hasRole(AccountRole.TENANT.name())
+                                .requestMatchers(HttpMethod.GET, "/error").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/public-api/tenant-sign-up").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/public-api/rental-ads").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/tenant-api/response-to-ads").hasRole(AccountRole.TENANT.name())
+                                .requestMatchers(HttpMethod.GET, "/tenant-api/find-by-low-price").hasRole(AccountRole.TENANT.name())
                         .requestMatchers("/landlord-api/**").hasRole(AccountRole.LANDLORD.name())
-                        .requestMatchers(HttpMethod.POST, "/accounts").permitAll()
                         .requestMatchers("/**").authenticated()
-                        .anyRequest().denyAll()
+//                        .anyRequest().denyAll()
                 )
                 .addFilterAfter(new AccessTokenAuthenticationFilter(accessTokenService), BasicAuthenticationFilter.class)
                 .build();
     }
-
 
     @Bean
     PasswordEncoder passwordEncoder() {
