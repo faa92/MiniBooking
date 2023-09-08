@@ -12,6 +12,7 @@ public class RentalAdOwnDto {
     String title;
     String description;
     BigDecimal price;
+    boolean active;    //todo
     Instant createdAt;
 
     public static RentalAdOwnDto from(RentalAd rentalAd) {
@@ -20,6 +21,7 @@ public class RentalAdOwnDto {
                 rentalAd.getTitle(),
                 rentalAd.getDescription(),
                 rentalAd.getPrice(),
+                rentalAd.isActive(),
                 rentalAd.getCreatedAt()
         );
     }

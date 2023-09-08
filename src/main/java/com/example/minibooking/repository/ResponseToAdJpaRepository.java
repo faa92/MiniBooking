@@ -13,6 +13,22 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
     }
 
     @Override
+    public List<ResponseToAd> findPageByLandlordWithRentalAdAndTenant(long landlordId, int pageSize, int pageNumber) {
+        return entityManager.createQuery("""
+                        SELECT responseToAd
+                        FROM ResponseToAd responseToAd
+                        JOIN FETCH responseToAd.rentalAd
+                        JOIN FETCH responseToAd.tenant
+                        WHERE responseToAd.rentalAd.id = :landlordId
+                        ORDER BY responseToAd.createdAt DESC                    
+                        """, ResponseToAd.class)
+                .setParameter("landlordId", landlordId)
+                .setMaxResults(pageSize)
+                .setFirstResult(pageSize * pageNumber)
+                .getResultList();
+    }
+
+    @Override
     public List<ResponseToAd> findPageByTenant(long tenantId, int pageSize, int pageNumber) {
         return entityManager.createQuery("""
                         SELECT responseToAd

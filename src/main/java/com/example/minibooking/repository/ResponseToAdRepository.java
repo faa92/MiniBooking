@@ -7,6 +7,11 @@ import java.util.Optional;
 
 public interface ResponseToAdRepository extends BaseRepository<ResponseToAd, Long> {
 
+//    ResponseToAdConfirmBookingDto confirmBooking(long tenantId, long responseId); todo
+//    проверка забронировано ли на эти даты    todo
+
+    List<ResponseToAd> findPageByLandlordWithRentalAdAndTenant(long landlordId, int pageSize, int pageNumber);
+
     List<ResponseToAd> findPageByTenant(long tenantId, int pageSize, int pageNumber);
 
     List<ResponseToAd> findByRentalAdLandlordAndTenant(long landlordId, long tenantId, int pageSize, int pageNumber);

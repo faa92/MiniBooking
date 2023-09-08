@@ -13,7 +13,6 @@ import com.example.minibooking.repository.RentalAdRepository;
 import com.example.minibooking.repository.ResponseToAdRepository;
 import com.example.minibooking.repository.TenantRepository;
 import com.example.minibooking.security.TenantPrincipal;
-import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +45,7 @@ public class RentalAdTenantServiceImpl implements RentalAdTenantService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<RentalAdPriceDto> findPageActiveAndLowPriceAd(@Nullable TenantPrincipal principal, int pageNumber) {
+    public List<RentalAdPriceDto> findPageActiveAndLowPriceAd(TenantPrincipal principal, int pageNumber) {
 //        if (principal.getRole() != AccountRole.TENANT){   //todo
 //            throw new BusinessException("Нужна аутентификация");
 //        }

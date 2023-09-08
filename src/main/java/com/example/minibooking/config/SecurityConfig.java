@@ -27,11 +27,19 @@ public class SecurityConfig {
                 .authorizeHttpRequests(config -> config
                                 .requestMatchers(HttpMethod.GET, "/error").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/public-api/tenant-sign-up").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/public-api/tenant-sign-in").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/public-api/landlord-sign-up").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/public-api/landlord-sign-in").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/public-api/rental-ads").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/tenant-api/response-to-ads").hasRole(AccountRole.TENANT.name())
+
+                                .requestMatchers(HttpMethod.GET, "/tenant-api/find-by-data").hasRole(AccountRole.TENANT.name())
                                 .requestMatchers(HttpMethod.GET, "/tenant-api/find-by-low-price").hasRole(AccountRole.TENANT.name())
-                        .requestMatchers("/landlord-api/**").hasRole(AccountRole.LANDLORD.name())
-                        .requestMatchers("/**").authenticated()
+                                .requestMatchers(HttpMethod.POST, "/tenant-api/send-book").hasRole(AccountRole.TENANT.name())
+
+//                                Landlord
+
+//                        .requestMatchers("/landlord-api/**").hasRole(AccountRole.LANDLORD.name())
+                                .requestMatchers("/**").authenticated()
 //                        .anyRequest().denyAll()
                 )
                 .addFilterAfter(new AccessTokenAuthenticationFilter(accessTokenService), BasicAuthenticationFilter.class)

@@ -31,7 +31,9 @@ public class PublicApiController {
     }
 
     @PostMapping("/tenant-sign-in")  // access token
-    public AccessToken signInTenant(@RequestBody TenantSignInDto dto) {
+    public AccessToken signInTenant(
+            @RequestBody TenantSignInDto dto
+    ) {
         return tenantService.signIn(dto);
     }
 
@@ -41,7 +43,9 @@ public class PublicApiController {
     }
 
     @PostMapping("landlord-sign-in")
-    public AccessToken signInLandlord(@RequestBody LandlordSignInDto dto) {
+    public AccessToken signInLandlord(
+            @RequestBody LandlordSignInDto dto
+    ) {
         return landlordService.signIn(dto);
     }
 

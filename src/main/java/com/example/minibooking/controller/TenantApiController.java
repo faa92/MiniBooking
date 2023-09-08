@@ -1,5 +1,6 @@
 package com.example.minibooking.controller;
 
+import com.example.minibooking.model.rentalAd.RentalAdDataDto;
 import com.example.minibooking.model.rentalAd.RentalAdPriceDto;
 import com.example.minibooking.model.responseToAd.ResponseToAdCreateBookDto;
 import com.example.minibooking.model.responseToAd.ResponseToAdShortBookDto;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -22,6 +24,17 @@ public class TenantApiController {
     private final RentalAdTenantService rentalAdTenantService;
     private final TenantService tenantService;
 
+
+    @GetMapping("/find-by-data")
+    public List<RentalAdDataDto> findByData(
+            @RequestBody LocalDate start,//todo
+            @RequestBody LocalDate end,//todo
+            @AuthenticationPrincipal TenantPrincipal principal,
+            @RequestParam int pageNumber
+    ) {
+        return rentalAdTenantService.getAvailableAdsInDataRange(start, end, principal, pageNumber);
+    }
+
     @GetMapping("/find-by-low-price")
     public List<RentalAdPriceDto> findByLowPrice(
             @AuthenticationPrincipal TenantPrincipal tenantPrincipal,
@@ -31,7 +44,7 @@ public class TenantApiController {
 
     }
 
-    @PostMapping("/response-to-ads")
+    @PostMapping("/send-book")
     public ResponseToAdShortBookDto sendBooking(
             @RequestBody ResponseToAdCreateBookDto dto,
             @AuthenticationPrincipal TenantPrincipal principal
