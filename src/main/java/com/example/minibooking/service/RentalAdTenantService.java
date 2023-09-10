@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface RentalAdTenantService {
 
+    List<RentalAdShortDto> getAllAdsByTitle(String title, int pageNumber);
+
     List<RentalAdShortDto> getPageByTitleQuery(String titleQuery, int pageNumber);
 
 

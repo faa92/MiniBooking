@@ -15,7 +15,7 @@ VALUES ('Chester Bennington;', 'сhester@example.com', 'passwordLP'),
 INSERT INTO rentalAd (title, description, price, created_at, active, landlord_id)
 VALUES ('Квартира в центре города', 'Просторная квартира в центре города', 1500.0, NOW(), true, 1),
        ('Дом с видом на озеро', 'Уютный дом с прекрасным видом на озеро', 2500.0, NOW(), true, 2),
-       ('Дачный участок', 'Отличное место для отдыха на даче', 1000.0, NOW(), false, 3);
+       ('Дачный участок с вилом на поле', 'Отличное место для отдыха на даче', 1000.0, NOW(), true, 3);
 
 
 

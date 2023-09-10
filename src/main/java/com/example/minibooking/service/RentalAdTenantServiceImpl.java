@@ -12,6 +12,7 @@ import com.example.minibooking.model.tenant.Tenant;
 import com.example.minibooking.repository.RentalAdRepository;
 import com.example.minibooking.repository.ResponseToAdRepository;
 import com.example.minibooking.repository.TenantRepository;
+import com.example.minibooking.security.AccountRole;
 import com.example.minibooking.security.TenantPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,17 @@ public class RentalAdTenantServiceImpl implements RentalAdTenantService {
 
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
+    public List<RentalAdShortDto> getAllAdsByTitle(String title, int pageNumber) {
+        String dbTitleQuery = "%" + title + "%";
+        return rentalAdRepository.findAllAdsByTitle(dbTitleQuery, RENTAL_AD_PAGE_SIZE, pageNumber)
+                .stream()
+                .map(RentalAdShortDto::from)
+                .toList();
+    }
+
+    @Override
+    @Transactional
     public List<RentalAdShortDto> getPageByTitleQuery(String titleQuery, int pageNumber) {
         String dbTitleQuery = "%" + titleQuery + "%";
         return rentalAdRepository.findPageOfActiveListingsLandlordByTitle(dbTitleQuery, RENTAL_AD_PAGE_SIZE, pageNumber)
@@ -46,9 +57,9 @@ public class RentalAdTenantServiceImpl implements RentalAdTenantService {
     @Override
     @Transactional(readOnly = true)
     public List<RentalAdPriceDto> findPageActiveAndLowPriceAd(TenantPrincipal principal, int pageNumber) {
-//        if (principal.getRole() != AccountRole.TENANT){   //todo
-//            throw new BusinessException("Нужна аутентификация");
-//        }
+        if (principal.getRole() != AccountRole.TENANT) {   //todo
+            throw new BusinessException("Нужна аутентификация");
+        }
         return rentalAdRepository.findPageActiveRentalAdByLowPrice(RENTAL_AD_PAGE_SIZE, pageNumber)
                 .stream()
                 .map(RentalAdPriceDto::from)
@@ -68,11 +79,7 @@ public class RentalAdTenantServiceImpl implements RentalAdTenantService {
     public ResponseToAdShortBookDto sendBooking(ResponseToAdCreateBookDto dto, TenantPrincipal principal) {
         RentalAd rentalAd = rentalAdRepository.findById(dto.getRentalAdId())
                 .orElseThrow(() -> new BusinessException("Объявление не не найдено"));
-//        boolean alreadyBooked = responseToAdRepository.findByRentalAdAndTenant(dto.getRentalAdId(), principal.getId())
-//                .isPresent();
-//        if (alreadyBooked) {  //todo
-//            throw new BusinessException("Для данного арендатора бранирование уже было выполнено");
-//        }
+
         Tenant tenant = tenantRepository.getReferenceById(principal.getId());
         Instant createAt = Instant.now();
         LocalDate from = dto.getDateFrom();

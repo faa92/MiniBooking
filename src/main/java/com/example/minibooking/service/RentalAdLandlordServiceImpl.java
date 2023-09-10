@@ -5,6 +5,8 @@ import com.example.minibooking.model.landlord.Landlord;
 import com.example.minibooking.model.rentalAd.RentalAd;
 import com.example.minibooking.model.rentalAd.RentalAdOwnDto;
 import com.example.minibooking.model.rentalAd.RentalAdUpdateDto;
+import com.example.minibooking.model.responseToAd.ResponseToAdConfirmBookingDto;
+import com.example.minibooking.model.responseToAd.ResponseToAdCreateBookDto;
 import com.example.minibooking.model.responseToAd.ResponseToAdDto;
 import com.example.minibooking.repository.LandlordRepository;
 import com.example.minibooking.repository.RentalAdRepository;
@@ -27,6 +29,12 @@ public class RentalAdLandlordServiceImpl implements RentalAdLandlordService {
     public static final int RENTAL_ADS_PAGE_SIZE = 10;
     public static final int RESPONSE_TO_AD_SIZE = 5;
 
+
+    @Override
+    public ResponseToAdConfirmBookingDto confirmBooking(ResponseToAdCreateBookDto dto, LandlordPrincipal principal) {
+
+        return null;
+    }
 
     @Override
     @Transactional

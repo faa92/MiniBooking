@@ -25,7 +25,7 @@ public class TenantApiController {
     private final TenantService tenantService;
 
 
-    @GetMapping("/find-by-data")
+    @PostMapping("/find-by-data")
     public List<RentalAdDataDto> findByData(
             @RequestBody LocalDate start,//todo
             @RequestBody LocalDate end,//todo
@@ -41,10 +41,9 @@ public class TenantApiController {
             @RequestParam int pageNumber
     ) {
         return rentalAdTenantService.findPageActiveAndLowPriceAd(tenantPrincipal, pageNumber);
-
     }
 
-    @PostMapping("/send-book")
+    @PutMapping("/send-book")
     public ResponseToAdShortBookDto sendBooking(
             @RequestBody ResponseToAdCreateBookDto dto,
             @AuthenticationPrincipal TenantPrincipal principal

@@ -14,6 +14,38 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
 
 
     @Override
+    public List<RentalAd> findAllAdsByTitle(String title, int pageSize, int pageNumber) { //todo
+        return entityManager.createQuery("""
+                        SELECT rentalAd
+                        FROM RentalAd rentalAd
+                        WHERE rentalAd.title =:title
+                        AND rentalAd.active = true 
+                        GROUP BY rentalAd.id
+                        ORDER BY rentalAd.createdAt DESC 
+                        """, RentalAd.class)
+                .setParameter("title", title)
+                .setMaxResults(pageSize)
+                .setFirstResult(pageSize * pageNumber)
+                .getResultList();
+    }
+
+    @Override
+    public List<RentalAd> findPageOfActiveListingsLandlordByTitle(String title, int pageSize, int pageNumber) {
+        return entityManager.createQuery("""
+                        SELECT rentalAd
+                        FROM RentalAd rentalAd
+                        JOIN FETCH rentalAd.landlord 
+                        WHERE rentalAd.active
+                        AND rentalAd.title ILIKE :title
+                        ORDER BY rentalAd.createdAt DESC 
+                        """, RentalAd.class)
+                .setParameter("title", title)
+                .setMaxResults(pageSize)
+                .setFirstResult(pageSize * pageNumber)
+                .getResultList(); //todo
+    }
+
+    @Override
     public List<RentalAd> findPageByLandlord(long landlordId, int pageSize, int pageNumber) {
         return entityManager.createQuery("""
                         SELECT rentalad
@@ -54,22 +86,6 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
                         """, RentalAd.class)
                 .setParameter("start", start)
                 .setParameter("end", end)
-                .setMaxResults(pageSize)
-                .setFirstResult(pageSize * pageNumber)
-                .getResultList();
-    }
-
-    @Override
-    public List<RentalAd> findPageOfActiveListingsLandlordByTitle(String title, int pageSize, int pageNumber) {
-        return entityManager.createQuery("""
-                        SELECT rentalAd
-                        FROM RentalAd rentalAd
-                        JOIN FETCH rentalAd.landlord
-                        WHERE rentalAd.active
-                        AND rentalAd.title ILIKE :title
-                        ORDER BY rentalAd.createdAt DESC 
-                        """, RentalAd.class)
-                .setParameter("title", title)
                 .setMaxResults(pageSize)
                 .setFirstResult(pageSize * pageNumber)
                 .getResultList();

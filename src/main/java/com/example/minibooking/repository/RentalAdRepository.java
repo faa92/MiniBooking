@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface RentalAdRepository extends BaseRepository<RentalAd, Long> {
 
+    List<RentalAd> findAllAdsByTitle(String title, int pageSize, int pageNumber);
 
     List<RentalAd> findPageByLandlord(long landlordId, int pageSize, int pageNumber);
 

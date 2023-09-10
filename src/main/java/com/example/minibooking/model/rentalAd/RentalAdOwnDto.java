@@ -12,7 +12,7 @@ public class RentalAdOwnDto {
     String title;
     String description;
     BigDecimal price;
-    boolean active;    //todo
+    boolean active;
     Instant createdAt;
 
     public static RentalAdOwnDto from(RentalAd rentalAd) {
