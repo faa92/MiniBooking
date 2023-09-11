@@ -2,7 +2,7 @@ package com.example.minibooking.service;
 
 import com.example.minibooking.exception.BusinessException;
 import com.example.minibooking.model.rentalAd.RentalAd;
-import com.example.minibooking.model.rentalAd.RentalAdDataDto;
+import com.example.minibooking.model.rentalAd.RentalAdDateDto;
 import com.example.minibooking.model.rentalAd.RentalAdPriceDto;
 import com.example.minibooking.model.rentalAd.RentalAdShortDto;
 import com.example.minibooking.model.responseToAd.ResponseToAd;
@@ -12,7 +12,6 @@ import com.example.minibooking.model.tenant.Tenant;
 import com.example.minibooking.repository.RentalAdRepository;
 import com.example.minibooking.repository.ResponseToAdRepository;
 import com.example.minibooking.repository.TenantRepository;
-import com.example.minibooking.security.AccountRole;
 import com.example.minibooking.security.TenantPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,15 +32,15 @@ public class RentalAdTenantServiceImpl implements RentalAdTenantService {
     private final TenantRepository tenantRepository;
 
 
-    @Override
-    @Transactional
-    public List<RentalAdShortDto> getAllAdsByTitle(String title, int pageNumber) {
-        String dbTitleQuery = "%" + title + "%";
-        return rentalAdRepository.findAllAdsByTitle(dbTitleQuery, RENTAL_AD_PAGE_SIZE, pageNumber)
-                .stream()
-                .map(RentalAdShortDto::from)
-                .toList();
-    }
+//    @Override
+//    @Transactional
+//    public List<RentalAdShortDto> getAllAdsByTitle(String title, int pageNumber) {
+//        String dbTitleQuery = "%" + title + "%";
+//        return rentalAdRepository.findAllAdsByTitle(dbTitleQuery, RENTAL_AD_PAGE_SIZE, pageNumber)
+//                .stream()
+//                .map(RentalAdShortDto::from)
+//                .toList();
+//    }
 
     @Override
     @Transactional
@@ -57,9 +56,6 @@ public class RentalAdTenantServiceImpl implements RentalAdTenantService {
     @Override
     @Transactional(readOnly = true)
     public List<RentalAdPriceDto> findPageActiveAndLowPriceAd(TenantPrincipal principal, int pageNumber) {
-        if (principal.getRole() != AccountRole.TENANT) {   //todo
-            throw new BusinessException("Нужна аутентификация");
-        }
         return rentalAdRepository.findPageActiveRentalAdByLowPrice(RENTAL_AD_PAGE_SIZE, pageNumber)
                 .stream()
                 .map(RentalAdPriceDto::from)
@@ -68,10 +64,10 @@ public class RentalAdTenantServiceImpl implements RentalAdTenantService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<RentalAdDataDto> getAvailableAdsInDataRange(LocalDate start, LocalDate end, TenantPrincipal principal, int pageNumber) {
+    public List<RentalAdDateDto> getAvailableAdsInDateRange(LocalDate start, LocalDate end, TenantPrincipal principal, int pageNumber) {
         return rentalAdRepository.getAvailableRentalAdsInDateRange(start, end, RENTAL_AD_PAGE_SIZE, pageNumber)
                 .stream()
-                .map(RentalAdDataDto::from)
+                .map(RentalAdDateDto::from)
                 .toList();
     }
 

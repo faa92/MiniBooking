@@ -49,19 +49,19 @@ public class PublicApiController {
         return landlordService.signIn(dto);
     }
 
-    @GetMapping("/all-active-rental-ads")
-    public List<RentalAdShortDto> getAllAds(
-            @RequestParam String query,
-            @RequestParam int page
-    ) {
-        return rentalAdTenantService.getAllAdsByTitle(query, page);
-    }
+//    @GetMapping("/all-active-rental-ads")
+//    public List<RentalAdShortDto> getAllAds(
+//            @RequestParam String query,
+//            @RequestParam int page
+//    ) {
+//        return rentalAdTenantService.getAllAdsByTitle(query, page);
+//    }
 
-    @GetMapping("/rental-ads")
-    public List<RentalAdShortDto> getPageOfAdsByTitle(
+    @GetMapping("/rental-ad")
+    public List<RentalAdShortDto> getPageOfAdByTitle(
             @RequestParam String query,
-            @RequestParam int page
+            @RequestParam int pageNumber
     ) {
-        return rentalAdTenantService.getPageByTitleQuery(query, page);
+        return rentalAdTenantService.getPageByTitleQuery(query, pageNumber);
     }
 }

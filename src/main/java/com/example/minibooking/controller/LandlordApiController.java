@@ -40,7 +40,7 @@ public class LandlordApiController {
         return rentalAdLandlordService.getPageOwnAds(page, principal);
     }
 
-    @GetMapping("/bookings-own_ads")
+    @GetMapping("/bookings-own-ads")
     public List<ResponseToAdDto> getPageBookingsByOwnRentalAds(
             @RequestParam int page,
             @AuthenticationPrincipal LandlordPrincipal principal
@@ -48,7 +48,7 @@ public class LandlordApiController {
         return rentalAdLandlordService.getPageOfResponseToAdByOwnAds(page, principal);
     }
 
-    @GetMapping("/rental-ad-update/{rentalAdId}")
+    @PutMapping("/rental-ad-update/{rentalAdId}")
     public RentalAdOwnDto updateAd(
             @PathVariable long rentalAdId,
             @RequestParam RentalAdUpdateDto dto,

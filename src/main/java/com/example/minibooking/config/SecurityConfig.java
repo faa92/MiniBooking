@@ -34,14 +34,21 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/public-api/landlord-sign-in").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/public-api/rental-ads").permitAll()
 
-
+                                //TENANT
+                                .requestMatchers(HttpMethod.GET, "/tenant-api/find-by-date").hasRole(AccountRole.TENANT.name())
                                 .requestMatchers(HttpMethod.GET, "/tenant-api/find-by-low-price").hasRole(AccountRole.TENANT.name())
-                                .requestMatchers(HttpMethod.GET, "/tenant-api/find-by-data").hasRole(AccountRole.TENANT.name())
                                 .requestMatchers(HttpMethod.POST, "/tenant-api/send-book").hasRole(AccountRole.TENANT.name())
 
+                                //LANDLORD
+                                .requestMatchers(HttpMethod.GET, "/landlord-api/own-ad").hasRole(AccountRole.LANDLORD.name())
+                                .requestMatchers(HttpMethod.GET, "/landlord-api/own-rental-ads").hasRole(AccountRole.LANDLORD.name())
+                                .requestMatchers(HttpMethod.GET, "/landlord-api/bookings-own-ads").hasRole(AccountRole.LANDLORD.name())
+                                .requestMatchers(HttpMethod.PUT, "/landlord-api/rental-ad-update/{rentalAdId}").hasRole(AccountRole.LANDLORD.name())
+                                .requestMatchers(HttpMethod.POST, "/landlord-api/rental-ad-create").hasRole(AccountRole.LANDLORD.name())
 
-//                              .requestMatchers("/**").authenticated()
-//                        .anyRequest().denyAll()
+
+//                                .requestMatchers("/**").authenticated()
+//                                .anyRequest().denyAll()
                 )
                 .addFilterAfter(new AccessTokenAuthenticationFilter(accessTokenService), BasicAuthenticationFilter.class)
                 .build();

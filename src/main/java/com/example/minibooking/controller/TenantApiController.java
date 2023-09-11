@@ -1,6 +1,6 @@
 package com.example.minibooking.controller;
 
-import com.example.minibooking.model.rentalAd.RentalAdDataDto;
+import com.example.minibooking.model.rentalAd.RentalAdDateDto;
 import com.example.minibooking.model.rentalAd.RentalAdPriceDto;
 import com.example.minibooking.model.responseToAd.ResponseToAdCreateBookDto;
 import com.example.minibooking.model.responseToAd.ResponseToAdShortBookDto;
@@ -25,14 +25,14 @@ public class TenantApiController {
     private final TenantService tenantService;
 
 
-    @PostMapping("/find-by-data")
-    public List<RentalAdDataDto> findByData(
-            @RequestBody LocalDate start,//todo
-            @RequestBody LocalDate end,//todo
+    @GetMapping("/find-by-date")
+    public List<RentalAdDateDto> findByDate(
+            @RequestParam LocalDate start,
+            @RequestParam LocalDate end,
             @AuthenticationPrincipal TenantPrincipal principal,
             @RequestParam int pageNumber
     ) {
-        return rentalAdTenantService.getAvailableAdsInDataRange(start, end, principal, pageNumber);
+        return rentalAdTenantService.getAvailableAdsInDateRange(start, end, principal, pageNumber);
     }
 
     @GetMapping("/find-by-low-price")
@@ -43,7 +43,7 @@ public class TenantApiController {
         return rentalAdTenantService.findPageActiveAndLowPriceAd(tenantPrincipal, pageNumber);
     }
 
-    @PutMapping("/send-book")
+    @PostMapping("/send-book")
     public ResponseToAdShortBookDto sendBooking(
             @RequestBody ResponseToAdCreateBookDto dto,
             @AuthenticationPrincipal TenantPrincipal principal
