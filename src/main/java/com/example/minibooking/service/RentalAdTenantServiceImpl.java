@@ -32,15 +32,6 @@ public class RentalAdTenantServiceImpl implements RentalAdTenantService {
     private final TenantRepository tenantRepository;
 
 
-//    @Override
-//    @Transactional
-//    public List<RentalAdShortDto> getAllAdsByTitle(String title, int pageNumber) {
-//        String dbTitleQuery = "%" + title + "%";
-//        return rentalAdRepository.findAllAdsByTitle(dbTitleQuery, RENTAL_AD_PAGE_SIZE, pageNumber)
-//                .stream()
-//                .map(RentalAdShortDto::from)
-//                .toList();
-//    }
 
     @Override
     @Transactional

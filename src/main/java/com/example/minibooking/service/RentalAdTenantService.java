@@ -11,12 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface RentalAdTenantService {
-
-
-//    List<RentalAdShortDto> getAllAdsByTitle(String title, int pageNumber);
-
     List<RentalAdShortDto> getPageByTitleQuery(String titleQuery, int pageNumber);
-
 
     List<RentalAdPriceDto> findPageActiveAndLowPriceAd(TenantPrincipal principal, int pageNumber);
 

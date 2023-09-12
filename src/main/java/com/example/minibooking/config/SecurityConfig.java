@@ -35,9 +35,9 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/public-api/rental-ads").permitAll()
 
                                 //TENANT
-                                .requestMatchers(HttpMethod.GET, "/tenant-api/find-by-date").hasRole(AccountRole.TENANT.name())
-                                .requestMatchers(HttpMethod.GET, "/tenant-api/find-by-low-price").hasRole(AccountRole.TENANT.name())
-                                .requestMatchers(HttpMethod.POST, "/tenant-api/send-book").hasRole(AccountRole.TENANT.name())
+                                .requestMatchers(HttpMethod.GET, "/tenant-api/ads-date").hasRole(AccountRole.TENANT.name())
+                                .requestMatchers(HttpMethod.GET, "/tenant-api/ads-low-price").hasRole(AccountRole.TENANT.name())
+                                .requestMatchers(HttpMethod.POST, "/tenant-api/send-booking").hasRole(AccountRole.TENANT.name())
 
                                 //LANDLORD
                                 .requestMatchers(HttpMethod.GET, "/landlord-api/own-ad").hasRole(AccountRole.LANDLORD.name())

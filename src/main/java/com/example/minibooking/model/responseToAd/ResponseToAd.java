@@ -30,16 +30,10 @@ public class ResponseToAd extends BaseEntity {
     private String message;
 
     @Column(name = "date_from", columnDefinition = "DATE", nullable = false)
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-//    @JsonDeserialize(using = LocalDateDeserializer.class)
-//    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate dateFrom;
 
 
     @Column(name = "date_to", columnDefinition = "DATE", nullable = false)
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-//    @JsonDeserialize(using = LocalDateDeserializer.class)
-//    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate dateTo;
 
     @Column(name = "created_at", nullable = false)
