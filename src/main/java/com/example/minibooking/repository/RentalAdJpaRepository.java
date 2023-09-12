@@ -79,7 +79,7 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
                         FROM RentalAd rentalAd
                         WHERE rentalAd.active = true
                         AND rentalAd NOT IN (
-                            SELECT ResponseToAd.rentalAd
+                            SELECT responseToAd.rentalAd
                             FROM ResponseToAd responseToAd
                             WHERE responseToAd.dateTo >= :start
                             AND responseToAd.dateFrom <= :end)
