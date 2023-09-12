@@ -7,7 +7,7 @@ import com.example.minibooking.model.rentalAd.RentalAdPriceDto;
 import com.example.minibooking.model.rentalAd.RentalAdShortDto;
 import com.example.minibooking.model.responseToAd.ResponseToAd;
 import com.example.minibooking.model.responseToAd.ResponseToAdCreateBookDto;
-import com.example.minibooking.model.responseToAd.ResponseToAdShortBookDto;
+import com.example.minibooking.model.responseToAd.ResponseToAdShortBookingDto;
 import com.example.minibooking.model.tenant.Tenant;
 import com.example.minibooking.repository.RentalAdRepository;
 import com.example.minibooking.repository.ResponseToAdRepository;
@@ -63,7 +63,7 @@ public class RentalAdTenantServiceImpl implements RentalAdTenantService {
     }
 
     @Override
-    public ResponseToAdShortBookDto sendBooking(ResponseToAdCreateBookDto dto, TenantPrincipal principal) {
+    public ResponseToAdShortBookingDto sendBooking(ResponseToAdCreateBookDto dto, TenantPrincipal principal) {
         RentalAd rentalAd = rentalAdRepository.findById(dto.getRentalAdId())
                 .orElseThrow(() -> new BusinessException("Объявление не не найдено"));
 
@@ -79,6 +79,6 @@ public class RentalAdTenantServiceImpl implements RentalAdTenantService {
                 .setDateTo(to)
                 .setCreatedAt(createAt);
         responseToAdRepository.create(responseToAd);
-        return ResponseToAdShortBookDto.from(responseToAd);  //todo
+        return ResponseToAdShortBookingDto.from(responseToAd);  //todo
     }
 }

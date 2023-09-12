@@ -2,6 +2,8 @@ package com.example.minibooking.controller;
 
 import com.example.minibooking.model.rentalAd.RentalAdOwnDto;
 import com.example.minibooking.model.rentalAd.RentalAdUpdateDto;
+import com.example.minibooking.model.responseToAd.ResponseToAdBookingDto;
+import com.example.minibooking.model.responseToAd.ResponseToAdConfirmBookingDto;
 import com.example.minibooking.model.responseToAd.ResponseToAdDto;
 import com.example.minibooking.repository.ResponseToAdRepository;
 import com.example.minibooking.security.LandlordPrincipal;
@@ -24,7 +26,24 @@ public class LandlordApiController {
     private final RentalAdLandlordService rentalAdLandlordService;
     private final ResponseToAdRepository responseToAdRepository;
 
-    @GetMapping("/own-ad")
+    @PostMapping("/create-ads")
+    public RentalAdOwnDto createAd(
+            @RequestBody RentalAdUpdateDto dto,
+            @AuthenticationPrincipal LandlordPrincipal principal
+    ) {
+        return rentalAdLandlordService.create(dto, principal);
+    }
+
+    @PutMapping("/update-ads/{rentalAdId}")
+    public RentalAdOwnDto updateAd(
+            @PathVariable long rentalAdId,
+            @RequestBody RentalAdUpdateDto dto,
+            @AuthenticationPrincipal LandlordPrincipal principal
+    ) {
+        return rentalAdLandlordService.update(rentalAdId, dto, principal);
+    }
+
+    @GetMapping("/own-ad/{rentalAdId}")
     public RentalAdOwnDto getOwnAd(
             @PathVariable long rentalAdId,
             @AuthenticationPrincipal LandlordPrincipal principal
@@ -32,7 +51,7 @@ public class LandlordApiController {
         return rentalAdLandlordService.getOwnAdById(rentalAdId, principal);
     }
 
-    @GetMapping("/own-rental-ads")
+    @GetMapping("/own-ads")
     public List<RentalAdOwnDto> getPageOwnAds(
             @RequestParam int page,
             @AuthenticationPrincipal LandlordPrincipal principal
@@ -48,22 +67,12 @@ public class LandlordApiController {
         return rentalAdLandlordService.getPageOfResponseToAdByOwnAds(page, principal);
     }
 
-    @PutMapping("/rental-ad-update/{rentalAdId}")
-    public RentalAdOwnDto updateAd(
-            @PathVariable long rentalAdId,
-            @RequestParam RentalAdUpdateDto dto,
+    @PutMapping("/confirm-bookings")
+    public ResponseToAdConfirmBookingDto confirmBooking(
+            @RequestBody ResponseToAdBookingDto dto,
             @AuthenticationPrincipal LandlordPrincipal principal
+
     ) {
-        return rentalAdLandlordService.update(rentalAdId, dto, principal);
+        return rentalAdLandlordService.confirmBooking(dto, principal);
     }
-
-    @PostMapping("/rental-ad-create")
-    public RentalAdOwnDto createAd(
-            @RequestBody RentalAdUpdateDto dto,
-            @AuthenticationPrincipal LandlordPrincipal principal
-    ) {
-        return rentalAdLandlordService.create(dto, principal);
-    }
-
-
 }

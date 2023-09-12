@@ -5,8 +5,8 @@ import com.example.minibooking.model.landlord.Landlord;
 import com.example.minibooking.model.rentalAd.RentalAd;
 import com.example.minibooking.model.rentalAd.RentalAdOwnDto;
 import com.example.minibooking.model.rentalAd.RentalAdUpdateDto;
+import com.example.minibooking.model.responseToAd.ResponseToAdBookingDto;
 import com.example.minibooking.model.responseToAd.ResponseToAdConfirmBookingDto;
-import com.example.minibooking.model.responseToAd.ResponseToAdCreateBookDto;
 import com.example.minibooking.model.responseToAd.ResponseToAdDto;
 import com.example.minibooking.repository.LandlordRepository;
 import com.example.minibooking.repository.RentalAdRepository;
@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -31,8 +32,9 @@ public class RentalAdLandlordServiceImpl implements RentalAdLandlordService {
 
 
     @Override
-    public ResponseToAdConfirmBookingDto confirmBooking(ResponseToAdCreateBookDto dto, LandlordPrincipal principal) {
-
+    public ResponseToAdConfirmBookingDto confirmBooking(ResponseToAdBookingDto dto, LandlordPrincipal principal) {
+        RentalAdOwnDto rentalAdOwnDto = getOwnAdById(dto.getRentalAdId(), principal);
+        update(rentalAdOwnDto.getId(), );
         return null;
     }
 
@@ -48,6 +50,7 @@ public class RentalAdLandlordServiceImpl implements RentalAdLandlordService {
     @Override
     @Transactional
     public RentalAdOwnDto create(RentalAdUpdateDto dto, LandlordPrincipal principal) {
+        Instant createAt = Instant.now();
         Landlord landlord = landlordRepository.getReferenceById(principal.getId());
 
         RentalAd rentalAd = new RentalAd()
@@ -55,7 +58,9 @@ public class RentalAdLandlordServiceImpl implements RentalAdLandlordService {
                 .setTitle(dto.getTitle())
                 .setDescription(dto.getDescription())
                 .setPrice(dto.getPrice())
+                .setCreatedAt(createAt)
                 .setActive(dto.isActive());
+        rentalAdRepository.create(rentalAd);
         return RentalAdOwnDto.from(rentalAd);
     }
 

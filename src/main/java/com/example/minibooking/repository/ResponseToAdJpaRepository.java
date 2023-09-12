@@ -13,6 +13,18 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
     }
 
     @Override
+    public ResponseToAd confirmBooking(long responseAdId) {
+        return entityManager.createQuery("""
+                SELECT responseToAd
+                FROM ResponseToAd responseToAd
+                JOIN FETCH responseToAd.rentalAd
+                JOIN FETCH responseToAd.tenant
+                WHERE responseToAd.id = :responseToAdId
+                                        
+                """);
+    }
+
+    @Override
     public List<ResponseToAd> findPageByLandlordWithRentalAdAndTenant(long landlordId, int pageSize, int pageNumber) {
         return entityManager.createQuery("""
                         SELECT responseToAd
@@ -29,7 +41,7 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
     }
 
     @Override
-    public List<ResponseToAd> findPageByTenant(long tenantId, int pageSize, int pageNumber) {
+    public List<ResponseToAd> findPageByTenant(long tenantId, int pageSize, int pageNumber) { //todo
         return entityManager.createQuery("""
                         SELECT responseToAd
                         FROM ResponseToAd responseToAd
@@ -42,7 +54,7 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
                 .getResultList();
     }
 
-    @Override
+    @Override //todo
     public List<ResponseToAd> findByRentalAdLandlordAndTenant(long landlordId, long tenantId, int pageSize, int pageNumber) {
         return entityManager.createQuery("""
                         SELECT responseToAd
@@ -59,7 +71,7 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
     }
 
     @Override
-    public int countResponseToAdByLandlord(long landlordId) {
+    public int countResponseToAdByLandlord(long landlordId) { //todo
         Integer count = entityManager.createQuery("""
                         SELECT COUNT (responseToAd)
                         FROM ResponseToAd responseToAd
@@ -72,7 +84,7 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
     }
 
     @Override
-    public Optional<ResponseToAd> findByRentalAdAndTenant(long rentalAdId, long tenantId) {
+    public Optional<ResponseToAd> findByRentalAdAndTenant(long rentalAdId, long tenantId) {//todo
         return entityManager.createQuery("""
                         SELECT responseToAd
                         FROM ResponseToAd responseToAd

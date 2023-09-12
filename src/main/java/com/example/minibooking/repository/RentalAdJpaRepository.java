@@ -14,7 +14,7 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
 
 
     @Override
-    public List<RentalAd> findAllAdsByTitle(String title, int pageSize, int pageNumber) { //todo
+    public List<RentalAd> findAllAdsByTitle(String title, int pageSize, int pageNumber) {
         return entityManager.createQuery("""
                         SELECT rentalAd
                         FROM RentalAd rentalAd
@@ -34,21 +34,21 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
         return entityManager.createQuery("""
                         SELECT rentalAd
                         FROM RentalAd rentalAd
-                        JOIN FETCH rentalAd.landlord 
+                        JOIN FETCH rentalAd.landlord
                         WHERE rentalAd.active
                         AND rentalAd.title ILIKE :title
-                        ORDER BY rentalAd.createdAt DESC 
+                        ORDER BY rentalAd.createdAt DESC
                         """, RentalAd.class)
                 .setParameter("title", title)
                 .setMaxResults(pageSize)
                 .setFirstResult(pageSize * pageNumber)
-                .getResultList(); //todo
+                .getResultList();
     }
 
     @Override
     public List<RentalAd> findPageByLandlord(long landlordId, int pageSize, int pageNumber) {
         return entityManager.createQuery("""
-                        SELECT rentalad
+                        SELECT rentalAd
                         FROM RentalAd rentalAd
                         WHERE rentalAd.landlord.id = :landlordId
                         ORDER BY rentalAd.createdAt DESC

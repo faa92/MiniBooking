@@ -6,15 +6,15 @@ import java.time.Instant;
 import java.time.LocalDate;
 
 @Value
-public class ResponseToAdShortBookDto {
+public class ResponseToAdShortBookingDto {
     long id;
     String message;
     LocalDate dateFrom;
     LocalDate dateTo;
     Instant createAt;
 
-    public static ResponseToAdShortBookDto from(ResponseToAd responseToAd) {
-        return new ResponseToAdShortBookDto(
+    public static ResponseToAdShortBookingDto from(ResponseToAd responseToAd) {
+        return new ResponseToAdShortBookingDto(
                 responseToAd.getId(),
                 responseToAd.getMessage(),
                 responseToAd.getDateFrom(),
