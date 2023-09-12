@@ -13,18 +13,6 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
     }
 
     @Override
-    public ResponseToAd confirmBooking(long responseAdId) {
-        return entityManager.createQuery("""
-                SELECT responseToAd
-                FROM ResponseToAd responseToAd
-                JOIN FETCH responseToAd.rentalAd
-                JOIN FETCH responseToAd.tenant
-                WHERE responseToAd.id = :responseToAdId
-                                        
-                """);
-    }
-
-    @Override
     public List<ResponseToAd> findPageByLandlordWithRentalAdAndTenant(long landlordId, int pageSize, int pageNumber) {
         return entityManager.createQuery("""
                         SELECT responseToAd

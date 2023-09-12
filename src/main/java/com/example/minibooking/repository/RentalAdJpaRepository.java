@@ -12,23 +12,6 @@ public class RentalAdJpaRepository extends BaseJpaRepository<RentalAd, Long> imp
         super(RentalAd.class);
     }
 
-
-    @Override
-    public List<RentalAd> findAllAdsByTitle(String title, int pageSize, int pageNumber) {
-        return entityManager.createQuery("""
-                        SELECT rentalAd
-                        FROM RentalAd rentalAd
-                        WHERE rentalAd.title =:title
-                        AND rentalAd.active = true 
-                        GROUP BY rentalAd.id
-                        ORDER BY rentalAd.createdAt DESC 
-                        """, RentalAd.class)
-                .setParameter("title", title)
-                .setMaxResults(pageSize)
-                .setFirstResult(pageSize * pageNumber)
-                .getResultList();
-    }
-
     @Override
     public List<RentalAd> findPageOfActiveListingsLandlordByTitle(String title, int pageSize, int pageNumber) {
         return entityManager.createQuery("""

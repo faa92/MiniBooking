@@ -2,8 +2,6 @@ package com.example.minibooking.controller;
 
 import com.example.minibooking.model.rentalAd.RentalAdOwnDto;
 import com.example.minibooking.model.rentalAd.RentalAdUpdateDto;
-import com.example.minibooking.model.responseToAd.ResponseToAdBookingDto;
-import com.example.minibooking.model.responseToAd.ResponseToAdConfirmBookingDto;
 import com.example.minibooking.model.responseToAd.ResponseToAdDto;
 import com.example.minibooking.repository.ResponseToAdRepository;
 import com.example.minibooking.security.LandlordPrincipal;
@@ -65,14 +63,5 @@ public class LandlordApiController {
             @AuthenticationPrincipal LandlordPrincipal principal
     ) {
         return rentalAdLandlordService.getPageOfResponseToAdByOwnAds(page, principal);
-    }
-
-    @PutMapping("/confirm-bookings")
-    public ResponseToAdConfirmBookingDto confirmBooking(
-            @RequestBody ResponseToAdBookingDto dto,
-            @AuthenticationPrincipal LandlordPrincipal principal
-
-    ) {
-        return rentalAdLandlordService.confirmBooking(dto, principal);
     }
 }
