@@ -63,6 +63,7 @@ public class RentalAdTenantServiceImpl implements RentalAdTenantService {
     }
 
     @Override
+    @Transactional
     public ResponseToAdShortBookingDto sendBooking(ResponseToAdCreateBookDto dto, TenantPrincipal principal) {
         RentalAd rentalAd = rentalAdRepository.findById(dto.getRentalAdId())
                 .orElseThrow(() -> new BusinessException("Объявление не не найдено"));
@@ -79,6 +80,6 @@ public class RentalAdTenantServiceImpl implements RentalAdTenantService {
                 .setDateTo(to)
                 .setCreatedAt(createAt);
         responseToAdRepository.create(responseToAd);
-        return ResponseToAdShortBookingDto.from(responseToAd);  //todo
+        return ResponseToAdShortBookingDto.from(responseToAd);
     }
 }

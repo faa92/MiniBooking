@@ -30,7 +30,7 @@ public class PublicApiController {
         return tenantService.signUp(dto);
     }
 
-    @PostMapping("/tenant-sign-in")  // access token
+    @PostMapping("/tenant-sign-in")
     public AccessToken signInTenant(
             @RequestBody TenantSignInDto dto
     ) {
@@ -49,13 +49,6 @@ public class PublicApiController {
         return landlordService.signIn(dto);
     }
 
-//    @GetMapping("/all-active-rental-ads")
-//    public List<RentalAdShortDto> getAllAds(
-//            @RequestParam String query,
-//            @RequestParam int page
-//    ) {
-//        return rentalAdTenantService.getAllAdsByTitle(query, page);
-//    }
 
     @GetMapping("/rental-ad")
     public List<RentalAdShortDto> getPageOfAdByTitle(

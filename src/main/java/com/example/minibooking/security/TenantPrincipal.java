@@ -6,6 +6,7 @@ import lombok.Value;
 @Value
 
 public class TenantPrincipal implements AccountPrincipal {
+
     long id;
 
     @Override

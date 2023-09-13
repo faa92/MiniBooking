@@ -29,7 +29,7 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
     }
 
     @Override
-    public List<ResponseToAd> findPageByTenant(long tenantId, int pageSize, int pageNumber) { //todo
+    public List<ResponseToAd> findPageByTenant(long tenantId, int pageSize, int pageNumber) {
         return entityManager.createQuery("""
                         SELECT responseToAd
                         FROM ResponseToAd responseToAd
@@ -42,7 +42,7 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
                 .getResultList();
     }
 
-    @Override //todo
+    @Override
     public List<ResponseToAd> findByRentalAdLandlordAndTenant(long landlordId, long tenantId, int pageSize, int pageNumber) {
         return entityManager.createQuery("""
                         SELECT responseToAd
@@ -59,7 +59,7 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
     }
 
     @Override
-    public int countResponseToAdByLandlord(long landlordId) { //todo
+    public int countResponseToAdByLandlord(long landlordId) {
         Integer count = entityManager.createQuery("""
                         SELECT COUNT (responseToAd)
                         FROM ResponseToAd responseToAd
@@ -72,7 +72,7 @@ public class ResponseToAdJpaRepository extends BaseJpaRepository<ResponseToAd, L
     }
 
     @Override
-    public Optional<ResponseToAd> findByRentalAdAndTenant(long rentalAdId, long tenantId) {//todo
+    public Optional<ResponseToAd> findByRentalAdAndTenant(long rentalAdId, long tenantId) {
         return entityManager.createQuery("""
                         SELECT responseToAd
                         FROM ResponseToAd responseToAd

@@ -3,9 +3,7 @@ package com.example.minibooking.controller;
 import com.example.minibooking.model.rentalAd.RentalAdOwnDto;
 import com.example.minibooking.model.rentalAd.RentalAdUpdateDto;
 import com.example.minibooking.model.responseToAd.ResponseToAdDto;
-import com.example.minibooking.repository.ResponseToAdRepository;
 import com.example.minibooking.security.LandlordPrincipal;
-import com.example.minibooking.service.LandlordService;
 import com.example.minibooking.service.RentalAdLandlordService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +18,7 @@ import java.util.List;
 @Tag(name = "Landlord API", description = "Возможности арендодателя")
 public class LandlordApiController {
 
-    private final LandlordService landlordService;
     private final RentalAdLandlordService rentalAdLandlordService;
-    private final ResponseToAdRepository responseToAdRepository;
 
     @PostMapping("/create-ads")
     public RentalAdOwnDto createAd(

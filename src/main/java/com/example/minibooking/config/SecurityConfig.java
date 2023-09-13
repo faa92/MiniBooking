@@ -34,22 +34,17 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/public-api/landlord-sign-in").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/public-api/rental-ads").permitAll()
 
-                                //TENANT
-                                .requestMatchers(HttpMethod.GET, "/tenant-api/ads-date").hasRole(AccountRole.TENANT.name())
-                                .requestMatchers(HttpMethod.GET, "/tenant-api/ads-low-price").hasRole(AccountRole.TENANT.name())
-                                .requestMatchers(HttpMethod.POST, "/tenant-api/send-booking").hasRole(AccountRole.TENANT.name())
+                        .requestMatchers(HttpMethod.GET, "/tenant-api/ads-date").hasRole(AccountRole.TENANT.name())
+                        .requestMatchers(HttpMethod.GET, "/tenant-api/ads-low-price").hasRole(AccountRole.TENANT.name())
+                        .requestMatchers(HttpMethod.POST, "/tenant-api/send-booking").hasRole(AccountRole.TENANT.name())
 
-                                //LANDLORD
-                                .requestMatchers(HttpMethod.POST, "/landlord-api/create-ads").hasRole(AccountRole.LANDLORD.name())
-                                .requestMatchers(HttpMethod.PUT, "/landlord-api/update-ads/{rentalAdId}").hasRole(AccountRole.LANDLORD.name())
-                                .requestMatchers(HttpMethod.GET, "/landlord-api/own-ad/{rentalAdId}").hasRole(AccountRole.LANDLORD.name())
-                                .requestMatchers(HttpMethod.GET, "/landlord-api/own-ads").hasRole(AccountRole.LANDLORD.name())
-                                .requestMatchers(HttpMethod.GET, "/landlord-api/bookings-own-ads").hasRole(AccountRole.LANDLORD.name())
-
-
-//
-//                                .requestMatchers("/**").authenticated()
-//                                .anyRequest().denyAll()
+                        .requestMatchers(HttpMethod.POST, "/landlord-api/create-ads").hasRole(AccountRole.LANDLORD.name())
+                        .requestMatchers(HttpMethod.PUT, "/landlord-api/update-ads/{rentalAdId}").hasRole(AccountRole.LANDLORD.name())
+                        .requestMatchers(HttpMethod.GET, "/landlord-api/own-ad/{rentalAdId}").hasRole(AccountRole.LANDLORD.name())
+                        .requestMatchers(HttpMethod.GET, "/landlord-api/own-ads").hasRole(AccountRole.LANDLORD.name())
+                        .requestMatchers(HttpMethod.GET, "/landlord-api/bookings-own-ads").hasRole(AccountRole.LANDLORD.name())
+                        .requestMatchers("/**").authenticated()
+                        .anyRequest().denyAll()
                 )
                 .addFilterAfter(new AccessTokenAuthenticationFilter(accessTokenService), BasicAuthenticationFilter.class)
                 .build();
