@@ -26,14 +26,14 @@ public class ResponseToAd extends BaseEntity {
     @JoinColumn(name = "rentalad_id", nullable = false)
     private RentalAd rentalAd;
 
-    @Column(name = "message", columnDefinition = "DATE", nullable = false)
+    @Column(name = "message", nullable = false)
     private String message;
 
     @Column(name = "date_from", columnDefinition = "DATE", nullable = false)
     private LocalDate dateFrom;
 
 
-    @Column(name = "date_to", nullable = false)
+    @Column(name = "date_to", columnDefinition = "DATE", nullable = false)
     private LocalDate dateTo;
 
     @Column(name = "created_at", nullable = false)

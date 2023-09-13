@@ -32,4 +32,5 @@ public abstract class BaseJpaRepository<E, ID> implements BaseRepository<E, ID> 
     public void remove(E entity) {
         entityManager.remove(entity);
     }
+
 }
